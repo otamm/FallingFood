@@ -18,7 +18,23 @@ class MainScene: CCNode {
     }
     
     override func update(delta: CCTime) {
-        
+        // use classic for loop so that we can remove objects while iterating over the array
+        for (var i = 0; i < fallingObjects.count; i++) {
+            let fallingObject = self.fallingObjects[i];
+            // check if falling object is below the screen boundary
+            if (CGRectGetMaxY(fallingObject.boundingBox()) < CGRectGetMinY(self.boundingBox())) {
+                // if object is below screen, remove it
+                fallingObject.removeFromParent();
+                fallingObjects.removeAtIndex(i);
+                self.animationManager.runAnimationsForSequenceNamed("DropSound");
+            } else {
+                // else, let the object fall with a constant speed
+                fallingObject.position = ccp(
+                    fallingObject.position.x,
+                    fallingObject.position.y - CGFloat(fallingSpeed * delta)
+                )
+            }
+        }
     }
     
     
