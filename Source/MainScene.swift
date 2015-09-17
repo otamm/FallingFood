@@ -2,18 +2,24 @@ import Foundation
 
 class MainScene: CCNode {
     
+    weak var pot:CCSprite!;
+    
     private var fallingObjects = [FallingObject]();
     
     
     private let fallingSpeed = 100.0;
     private let spawnFrequency = 0.5; //(in seconds)
     
+    private var isDraggingPot = false;
+    private var dragTouchOffset = ccp(0,0);
     /* cocos2d methods */
     
     // called as soon as scene is visible and transition finished
     override func onEnterTransitionDidFinish() {
         super.onEnterTransitionDidFinish();
         // spawn objects with defined frequency
+        self.userInteractionEnabled = true;
+        
         self.schedule("spawnObject", interval: self.spawnFrequency);
     }
     
@@ -37,6 +43,41 @@ class MainScene: CCNode {
         }
     }
     
+    // register touch offset; register that user is currently touching on the screen.
+    override func touchBegan(touch: CCTouch, withEvent event: CCTouchEvent) {
+        // CGRectContains Point:
+        // arg1: a rectangle for a given element that is a part of the main node;
+        // arg2: locationInNode returns touch position within the node passed as argument
+        if (CGRectContainsPoint(self.pot.boundingBox(), touch.locationInNode(self))) {
+            self.isDraggingPot = true;
+            // gets distance between pot's anchor point (the center) and the exact touch location (arbitrarily defined) to allow smoother dragging of pot accross the screen. Final pot position is pot current position relative to its own anchor point *plus* touch offset.
+            self.dragTouchOffset = ccpSub(pot.anchorPointInPoints, touch.locationInNode(pot));
+        }
+    }
+    
+    // actual implementation of pot movement.
+    override func touchMoved(touch: CCTouch, withEvent event: CCTouchEvent) {
+        if (!self.isDraggingPot) {
+            return;
+        }
+        var newPosition = touch.locationInNode(self);
+        // apply touch offset
+        newPosition = ccpAdd(newPosition, dragTouchOffset);
+        // ensure constant y position
+        newPosition = ccp(newPosition.x, pot.positionInPoints.y);
+        // apply new position to pot
+        self.pot.positionInPoints = newPosition;
+    }
+    
+    // declares 'dragging mode' as over, which will block the pot from spawning in any position the user touches without being dragged.
+    override func touchEnded(touch: CCTouch, withEvent event: CCTouchEvent) {
+        self.isDraggingPot = false;
+    }
+    
+    // same as above
+    override func touchCancelled(touch: CCTouch, withEvent event: CCTouchEvent) {
+        self.isDraggingPot = false;
+    }
     
     /* custom methods */
     func spawnObject() {
