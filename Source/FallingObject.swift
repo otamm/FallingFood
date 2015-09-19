@@ -18,11 +18,11 @@ private struct ImageNames {
         let imageDictionary:Dictionary = NSDictionary(contentsOfFile: path)! as! [String : AnyObject];
         // loaded from FallingObjectImages.plist;
         self.good = imageDictionary["Good"] as! [String];
-        println(good.count);
         self.bad = imageDictionary["Bad"] as! [String];
         
     }
 }
+
 
 class FallingObject:CCSprite {
     
@@ -30,6 +30,14 @@ class FallingObject:CCSprite {
         case Good;
         case Bad;
     }
+            
+    enum FallingObjectState {
+        case Falling;
+        case Caught;
+        case Missed;
+    }
+    
+    var fallState = FallingObjectState.Falling;
     // marks the variable's setter as private, turning it into a readonly property. Value cannot change once it has been assigned.
     private(set) var type: FallingObjectType;
     
