@@ -65,6 +65,8 @@
 		AA4E5DB31BA910C500E6D644 /* FallingObjectImages.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA4E5DB21BA910C500E6D644 /* FallingObjectImages.plist */; };
 		AA4E5DB51BA9790400E6D644 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E5DB41BA9790400E6D644 /* Helpers.swift */; };
 		AA4E5DBD1BAB05E500E6D644 /* Pot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E5DBC1BAB05E500E6D644 /* Pot.swift */; };
+		AA716B081BADB99E00A8E702 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA716B071BADB99E00A8E702 /* GameMode.swift */; };
+		AA716B0C1BADC8BC00A8E702 /* TimedGameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA716B0B1BADC8BC00A8E702 /* TimedGameMode.swift */; };
 		AA77016B1BA6DE38009CC1F4 /* FallingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA77016A1BA6DE38009CC1F4 /* FallingObject.swift */; };
 		AAE2B5DD1BAC51A900C37298 /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE2B5DC1BAC51A900C37298 /* StartScene.swift */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
@@ -181,6 +183,8 @@
 		AA4E5DB21BA910C500E6D644 /* FallingObjectImages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = FallingObjectImages.plist; path = Source/FallingObjectImages.plist; sourceTree = "<group>"; };
 		AA4E5DB41BA9790400E6D644 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = Source/Helpers.swift; sourceTree = "<group>"; };
 		AA4E5DBC1BAB05E500E6D644 /* Pot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pot.swift; path = Source/Pot.swift; sourceTree = "<group>"; };
+		AA716B071BADB99E00A8E702 /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMode.swift; path = Source/GameMode.swift; sourceTree = "<group>"; };
+		AA716B0B1BADC8BC00A8E702 /* TimedGameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimedGameMode.swift; path = Source/TimedGameMode.swift; sourceTree = "<group>"; };
 		AA77016A1BA6DE38009CC1F4 /* FallingObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FallingObject.swift; path = Source/FallingObject.swift; sourceTree = "<group>"; };
 		AAE2B5DC1BAC51A900C37298 /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StartScene.swift; path = Source/StartScene.swift; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
@@ -446,6 +450,8 @@
 			children = (
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
+				AA716B071BADB99E00A8E702 /* GameMode.swift */,
+				AA716B0B1BADC8BC00A8E702 /* TimedGameMode.swift */,
 				AA4E5DBC1BAB05E500E6D644 /* Pot.swift */,
 				AA77016A1BA6DE38009CC1F4 /* FallingObject.swift */,
 				AAE2B5DC1BAC51A900C37298 /* StartScene.swift */,
@@ -828,6 +834,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA716B081BADB99E00A8E702 /* GameMode.swift in Sources */,
+				AA716B0C1BADC8BC00A8E702 /* TimedGameMode.swift in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				AAE2B5DD1BAC51A900C37298 /* StartScene.swift in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
