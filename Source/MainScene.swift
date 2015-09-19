@@ -2,11 +2,33 @@ import Foundation
 
 class MainScene: CCNode {
     
-    var selectedGameMode: GameModeSelection?;
+    var gameMode:GameMode?;
+    
+    // .Endless here is just a default value.
+    var selectedGameMode:GameModeSelection = .Endless {
+        didSet {
+        // adds UI that exists?
+            switch (selectedGameMode) {
+                case .Endless:
+                    gameMode = EndlessGameMode();
+                case .Timed:
+                    gameMode = TimedGameMode();
+            }
+            self.addChild(gameMode?.userInterface);
+            // draws it on top of all other stuff
+            self.gameMode?.userInterface.zOrder = DrawingOrder.ScoreBoard.rawValue;
+        }
+    }
     
     enum GameModeSelection: Int {
         case Endless;
         case Timed;
+    }
+    
+    
+    enum DrawingOrder: Int {
+        case GameplayElements;
+        case ScoreBoard;
     }
     
     weak var pot:Pot!;
@@ -19,6 +41,7 @@ class MainScene: CCNode {
     
     private var isDraggingPot = false;
     private var dragTouchOffset = ccp(0,0);
+    
     /* cocos2d methods */
     
     // called as soon as scene is visible and transition finished
@@ -26,7 +49,7 @@ class MainScene: CCNode {
         super.onEnterTransitionDidFinish();
         // spawn objects with defined frequency
         self.userInteractionEnabled = true;
-        
+        self.pot.zOrder = DrawingOrder.GameplayElements.rawValue;
         self.schedule("spawnObject", interval: self.spawnFrequency);
     }
     
@@ -46,6 +69,13 @@ class MainScene: CCNode {
                     self.performMissedStep(fallingObject)
                 case .Caught:
                     self.performCaughtStep(fallingObject)
+            }
+        }
+        // 'gameplayStep' called from delegate.
+        let isGameOver = self.gameMode?.gameplayStep(self, delta: delta);
+        if let isGameOver = isGameOver {
+            if (isGameOver) {
+                self.gameOver();
             }
         }
     }
@@ -97,6 +127,7 @@ class MainScene: CCNode {
         let xSpawnRange = Int(self.contentSizeInPoints.width - CGRectGetMaxX(fallingObject.boundingBox()));
         let spawnPosition = ccp(CGFloat(Int(arc4random_uniform(UInt32(xSpawnRange)))), self.contentSizeInPoints.height);
         fallingObject.position = spawnPosition;
+        fallingObject.zOrder = DrawingOrder.GameplayElements.rawValue;
         self.addChild(fallingObject);
     }
     
@@ -131,6 +162,8 @@ class MainScene: CCNode {
             fallingObject.removeFromParent();
             let fallingObjectIndex = find(fallingObjects, fallingObject)!;
             self.fallingObjects.removeAtIndex(fallingObjectIndex);
+            // call 'gameplay' action for missed object from specific delegate (different if mode is Endless or Timed);
+            self.gameMode?.gameplay(self, droppedFallingObject:fallingObject)
             // play sound effect
             self.animationManager.runAnimationsForSequenceNamed("DropSound");
         }
@@ -142,7 +175,15 @@ class MainScene: CCNode {
             fallingObject.removeFromParent();
             let fallingObjectIndex = find(fallingObjects, fallingObject)!;
             self.fallingObjects.removeAtIndex(fallingObjectIndex);
+            // call 'gameplay' action for caught object from specific delegate (different if mode is Endless or Timed);
+            self.gameMode?.gameplay(self, caughtFallingObject:fallingObject);
         }
+    }
+    
+    func gameOver() {
+        let startScene = CCBReader.loadAsScene("StartScene");
+        let transition = CCTransition(crossFadeWithDuration: 0.7);
+        CCDirector.sharedDirector().replaceScene(startScene, withTransition: transition);
     }
     
 }
