@@ -57,6 +57,12 @@ class EndlessGameMode: GameMode {
         return (health <= minHealth);
     }
     
+    func highscoreMessage() -> String {
+        // used to check whether or not pluralization is necessary
+        let secondsText = Int(survivalTime) == 1 ? "second" : "seconds";
+        return "You have survived \(Int(survivalTime)) \(secondsText)!";
+    }
+    
     init() {
         userInterface = CCBReader.load("EndlessModeUI", owner:self);
     }

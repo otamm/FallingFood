@@ -18,4 +18,6 @@ protocol GameMode: class {
     func gameplay(mainScene:MainScene, caughtFallingObject:FallingObject);
     
     func gameplayStep(mainScene:MainScene, delta: CCTime) -> GameOver;
+    
+    func highscoreMessage() -> String;
 }

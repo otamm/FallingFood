@@ -69,6 +69,13 @@ class TimedGameMode: GameMode {
         return !(time > minTime);
     }
     
+    
+    func highscoreMessage() -> String {
+        // used to check whether or not pluralization is necessary
+        let pointsText = points == 1 ? "point" : "points";
+        return "You have scored \(Int(points)) \(pointsText)!";
+    }
+    
     /* initializer */
     
     init() {

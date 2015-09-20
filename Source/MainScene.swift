@@ -29,9 +29,12 @@ class MainScene: CCNode {
     enum DrawingOrder: Int {
         case GameplayElements;
         case ScoreBoard;
+        case GameOverPopup;
     }
     
     weak var pot:Pot!;
+    
+    weak var gameOverPopUpHighscoreLabel: CCLabelTTF!;
     
     private var fallingObjects = [FallingObject]();
     
@@ -41,6 +44,8 @@ class MainScene: CCNode {
     
     private var isDraggingPot = false;
     private var dragTouchOffset = ccp(0,0);
+    
+    private var gameEnded = false;
     
     /* cocos2d methods */
     
@@ -74,7 +79,8 @@ class MainScene: CCNode {
         // 'gameplayStep' called from delegate.
         let isGameOver = self.gameMode?.gameplayStep(self, delta: delta);
         if let isGameOver = isGameOver {
-            if (isGameOver) {
+            // if !self.gameEnded is 'false', popup the gameover. Otherwise, the popup is already present.
+            if (isGameOver && !self.gameEnded) {
                 self.gameOver();
             }
         }
@@ -181,9 +187,47 @@ class MainScene: CCNode {
     }
     
     func gameOver() {
+        self.gameEnded = true;
+        self.userInteractionEnabled = false;
+        self.isDraggingPot = false;
+        self.presentGameOverPopup();
+    }
+    
+    func presentGameOverPopup() {
+        let gameOverPopup = CCBReader.load("GameOverPopup", owner:self);
+        // workaround because CCPositionTypeNormalized cannot be used at the moment
+        // https://github.com/spritebuilder/SpriteBuilder/issues/1346
+        gameOverPopup.positionType = CCPositionType(
+            xUnit: .Normalized,
+            yUnit: .Normalized,
+            corner: .BottomLeft
+        );
+        gameOverPopup.position = ccp(0.5, 0.5);
+        gameOverPopup.zOrder = DrawingOrder.GameOverPopup.rawValue;
+        self.gameOverPopUpHighscoreLabel.string = gameMode?.highscoreMessage();
+        self.addChild(gameOverPopup);
+        
+        let fadeOutAction = CCActionFadeOut.actionWithDuration(0.3) as! CCAction;
+        gameMode?.userInterface.cascadeOpacityEnabled = true;
+        gameMode?.userInterface.runAction(fadeOutAction);
+    }
+    
+    /* button methods */
+    func backToMenu() {
         let startScene = CCBReader.loadAsScene("StartScene");
         let transition = CCTransition(crossFadeWithDuration: 0.7);
         CCDirector.sharedDirector().replaceScene(startScene, withTransition: transition);
+    }
+    
+    
+    func playAgain() {
+        // adds a child to the CCScene instance;
+        let mainSceneContainer = CCBReader.loadAsScene("MainScene");
+        // the first child of the loaded scene is the actual root node of the loaded CCB file
+        let mainScene = mainSceneContainer.children[0] as! MainScene;
+        mainScene.selectedGameMode = selectedGameMode;
+        let transition = CCTransition(crossFadeWithDuration: 0.7);
+        CCDirector.sharedDirector().replaceScene(mainSceneContainer, withTransition: transition);
     }
     
 }

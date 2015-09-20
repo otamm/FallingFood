@@ -16,7 +16,7 @@
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>docDimensionsType</key>
 	<integer>0</integer>
 	<key>fileType</key>
@@ -178,7 +178,7 @@
 						<key>type</key>
 						<string>Float</string>
 						<key>value</key>
-						<real>1</real>
+						<real>0.69999998807907104</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -190,7 +190,7 @@
 							<real>1</real>
 							<real>1</real>
 							<real>1</real>
-							<real>1</real>
+							<real>0.69999998807907104</real>
 						</array>
 					</dict>
 					<dict>
@@ -286,7 +286,7 @@
 						<key>baseValue</key>
 						<array>
 							<real>0.5</real>
-							<real>256</real>
+							<real>80</real>
 						</array>
 						<key>name</key>
 						<string>position</string>
@@ -295,7 +295,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>-400</real>
+							<real>80</real>
 							<integer>0</integer>
 							<integer>2</integer>
 							<integer>0</integer>
@@ -587,6 +587,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -680,7 +682,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>-0.5</real>
+							<real>0.25</real>
 							<integer>1</integer>
 							<integer>2</integer>
 							<integer>2</integer>
@@ -946,7 +948,7 @@
 						<key>value</key>
 						<array>
 							<real>0.0</real>
-							<real>-400</real>
+							<real>0.0</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -1030,8 +1032,6 @@
 						<true/>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -1228,7 +1228,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>1</real>
+			<real>0.0</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
