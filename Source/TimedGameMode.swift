@@ -17,6 +17,9 @@ class TimedGameMode: GameMode {
     // label on the upper-right side of the screen
     var pointsLabel: CCLabelTTF!;
     
+    private let highscoreKey = "TimedGameMode.Highschore";
+    private var newHighscore = false;
+    
     let minPoints = 0;
     
     let minTime = 0.0;
@@ -70,10 +73,28 @@ class TimedGameMode: GameMode {
     }
     
     
+    
     func highscoreMessage() -> String {
-        // used to check whether or not pluralization is necessary
-        let pointsText = points == 1 ? "point" : "points";
-        return "You have scored \(Int(points)) \(pointsText)!";
+        let pointsText = "point".pluralize(points);
+        if (!newHighscore) {
+            let oldHighscore = NSUserDefaults.standardUserDefaults().integerForKey(highscoreKey);
+            let oldHighscoreText = "point".pluralize(oldHighscore);
+            return "You have scored \(points) \(pointsText)! Your highscore is \(Int(oldHighscore)) \(oldHighscoreText).";
+        } else {
+            return "You have reached a new highscore of \(points) \(pointsText)!";
+        }
+    }
+    
+    func saveHighscore() {
+        let oldHigschore = NSUserDefaults.standardUserDefaults().integerForKey(highscoreKey);
+        if (points > oldHigschore) {
+            // if this score is larger than the old highscore, store it
+            NSUserDefaults.standardUserDefaults().setInteger(points, forKey: highscoreKey);
+            NSUserDefaults.standardUserDefaults().synchronize();
+            newHighscore = true;
+        } else {
+            newHighscore = false;
+        }
     }
     
     /* initializer */

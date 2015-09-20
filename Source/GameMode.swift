@@ -20,4 +20,6 @@ protocol GameMode: class {
     func gameplayStep(mainScene:MainScene, delta: CCTime) -> GameOver;
     
     func highscoreMessage() -> String;
+    
+    func saveHighscore();
 }

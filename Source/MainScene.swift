@@ -190,6 +190,7 @@ class MainScene: CCNode {
         self.gameEnded = true;
         self.userInteractionEnabled = false;
         self.isDraggingPot = false;
+        self.gameMode?.saveHighscore();
         self.presentGameOverPopup();
     }
     

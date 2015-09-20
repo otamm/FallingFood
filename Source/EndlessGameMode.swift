@@ -36,6 +36,10 @@ class EndlessGameMode: GameMode {
         }
     }
     
+    private let highscoreKey = "EndlessGameMode.Highschore";
+    
+    private var newHighscore = false;
+    
     //subtracts from health if object dropped was a good one
     func gameplay(mainScene:MainScene, droppedFallingObject:FallingObject) {
         if (droppedFallingObject.type == .Good) {
@@ -58,9 +62,27 @@ class EndlessGameMode: GameMode {
     }
     
     func highscoreMessage() -> String {
-        // used to check whether or not pluralization is necessary
-        let secondsText = Int(survivalTime) == 1 ? "second" : "seconds";
-        return "You have survived \(Int(survivalTime)) \(secondsText)!";
+        let secondsText = "second".pluralize(survivalTime);
+        if (!newHighscore) {
+            let oldHighscore = NSUserDefaults.standardUserDefaults().integerForKey(highscoreKey);
+            let oldHighscoreText = "second".pluralize(oldHighscore);
+            return "You have survived \(Int(survivalTime)) \(secondsText)! Your highscore is \(Int(oldHighscore)) \(oldHighscoreText).";
+        } else {
+            return "You have reached a new highscore of \(Int(survivalTime)) \(secondsText)!";
+        }
+    }
+    
+    func saveHighscore() {
+        let oldHigschore = NSUserDefaults.standardUserDefaults().integerForKey(highscoreKey);
+        if (Int(survivalTime) > oldHigschore) {
+            // if this score is larger than the old highscore, store it
+            NSUserDefaults.standardUserDefaults().setInteger(Int(survivalTime), forKey: highscoreKey);
+            // this line below forces the device to write the data immediately (it is called automatically from time to time), eliminating the risk of losing data if some crash happens or the user quits the app.
+            NSUserDefaults.standardUserDefaults().synchronize();
+            newHighscore = true;
+        } else {
+            newHighscore = false;
+        }
     }
     
     init() {
