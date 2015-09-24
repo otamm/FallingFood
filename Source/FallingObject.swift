@@ -57,5 +57,12 @@ class FallingObject:CCSprite {
         let spriteFrame = CCSpriteFrame(imageNamed:imageName);
         super.init(texture: spriteFrame.texture, rect: spriteFrame.rect, rotated: false);
         self.anchorPoint = ccp(0,0);
+        // register this spawned object's 'effect' attribute as one who should be affected by lightning.
+        self.effect = CCEffectLighting();
+        // adds normal map associated with spawned object.
+        let imageNameSplit = split(imageName!) { $0 == "." }; // $0 is the index of the argument passed down to the split() function (in this case, the first and only 'imageName' parameter).
+        let imageNameFirstPart = imageNameSplit[0];
+        let normalMapName = "\(imageNameFirstPart)_NRM.png";
+        self.normalMapSpriteFrame = CCSpriteFrame(imageNamed: normalMapName);
     }
 }

@@ -36,6 +36,8 @@ class MainScene: CCNode {
     
     weak var gameOverPopUpHighscoreLabel: CCLabelTTF!;
     
+    weak var effectNode:CCEffectNode!;
+    
     private var fallingObjects = [FallingObject]();
     
     
@@ -134,7 +136,8 @@ class MainScene: CCNode {
         let spawnPosition = ccp(CGFloat(Int(arc4random_uniform(UInt32(xSpawnRange)))), self.contentSizeInPoints.height);
         fallingObject.position = spawnPosition;
         fallingObject.zOrder = DrawingOrder.GameplayElements.rawValue;
-        self.addChild(fallingObject);
+        //self.addChild(fallingObject); adds object to effect node so it can be affected by lightning effect.
+        self.effectNode.addChild(fallingObject);
     }
     
     func performFallingStep(fallingObject:FallingObject) {
